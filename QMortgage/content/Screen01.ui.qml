@@ -1,71 +1,108 @@
+
+
 /*
 This is a UI file (.ui.qml) that is intended to be edited in Qt Design Studio only.
 It is supposed to be strictly declarative and only uses a subset of QML. If you edit
 this file manually, you might introduce QML code that is not supported by Qt Design Studio.
 Check out https://doc.qt.io/qtcreator/creator-quick-ui-forms.html for details on .ui.qml files.
 */
-
-import QtQuick 6.5
-import QtQuick.Controls 6.5
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
 import QMortgage
+import "components"
 
-Rectangle {
-    id: rectangle
+Item {
+    id: root
     width: Constants.width
     height: Constants.height
 
-    color: Constants.backgroundColor
+    ColumnLayout {
+        id: appLayout
+        anchors.fill: parent
+        anchors.margins: 16
+        spacing: 16
 
-    Button {
-        id: button
-        text: qsTr("Press me")
-        anchors.verticalCenter: parent.verticalCenter
-        checkable: true
-        anchors.horizontalCenter: parent.horizontalCenter
+        Label {
+            id: appTitleLabel
+            text: qsTr("Loan Calculator")
+            horizontalAlignment: Text.AlignHCenter
+            verticalAlignment: Text.AlignVCenter
+            Layout.fillWidth: true
+            font {
+                pixelSize: 32
+                family: "Roboto"
+            }
+        }
 
-        Connections {
-            target: button
-            onClicked: animation.start()
+        NumberInput {
+            id: loanAmountField
+            amountLabelText: qsTr("Loan Amount")
+        }
+
+        NumberInput {
+            id: termAmountField
+            amountLabelText: qsTr("Loan Term")
+        }
+
+        NumberInput {
+            id: rateAmountField
+            amountLabelText: qsTr("Loan Rate")
+        }
+
+        Label {
+            id: monthlyPaymentLabel
+            text: qsTr("Your Monthly Payment")
+            horizontalAlignment: Text.AlignHCenter
+            verticalAlignment: Text.AlignVCenter
+            Layout.fillWidth: true
+            font {
+                pixelSize: 16
+                family: "Roboto"
+            }
+        }
+
+        Label {
+            id: paymentAmountLabel
+            text: qsTr("$0.00")
+            horizontalAlignment: Text.AlignHCenter
+            verticalAlignment: Text.AlignVCenter
+            Layout.fillWidth: true
+            font {
+                pixelSize: 32
+                family: "Roboto"
+            }
+        }
+
+        AmountLabels {
+            id: principal
+            amountLabel: qsTr("Total Principal")
+            amountNumber: qsTr("$" + "0.00")
+        }
+
+        AmountLabels {
+            id: interest
+            amountLabel: qsTr("Total Interest")
+            amountNumber: qsTr("$" + "0.00")
+        }
+
+        AmountLabels {
+            id: cost
+            amountLabel: qsTr("Total Cost")
+            amountNumber: qsTr("$" + "0.00")
+        }
+
+        Button {
+            id: calculateButton
+            Layout.fillHeight: true
+            Layout.fillWidth: true
+            Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+            text: qsTr("Calculate")
+            font {
+                pixelSize: 32
+                family: "Roboto"
+                color: "black"
+            }
         }
     }
-
-    Text {
-        id: label
-        text: qsTr("Hello QMortgage")
-        anchors.top: button.bottom
-        font.family: Constants.font.family
-        anchors.topMargin: 45
-        anchors.horizontalCenter: parent.horizontalCenter
-
-        SequentialAnimation {
-            id: animation
-
-            ColorAnimation {
-                id: colorAnimation1
-                target: rectangle
-                property: "color"
-                to: "#2294c6"
-                from: Constants.backgroundColor
-            }
-
-            ColorAnimation {
-                id: colorAnimation2
-                target: rectangle
-                property: "color"
-                to: Constants.backgroundColor
-                from: "#2294c6"
-            }
-        }
-    }
-    states: [
-        State {
-            name: "clicked"
-            when: button.checked
-
-            PropertyChanges {
-                target: label
-                text: qsTr("Button Checked")
-            }
-        }
-    ]
 }
