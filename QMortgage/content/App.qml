@@ -11,6 +11,8 @@ Window {
 
     color: Constants.backgroundColor
 
+    color: Constants.backgroundColor
+
     visible: true
     title: "QMortgage"
 
