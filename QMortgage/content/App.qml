@@ -6,8 +6,8 @@ import QtQuick.Controls
 import QMortgage
 
 Window {
-    width: mainScreen.width
-    height: mainScreen.height
+    width: Constants.width
+    height: Constants.height
 
     color: Constants.backgroundColor
 
@@ -16,6 +16,10 @@ Window {
 
     Screen01 {
         id: mainScreen
+        anchors{
+            fill: parent
+            margins: 16
+        }
     }
 
 }

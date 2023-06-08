@@ -22,6 +22,8 @@ ColumnLayout {
     TextField {
         id: amountTextField
         horizontalAlignment: Text.AlignRight
+        Layout.maximumHeight: 32
+        Layout.preferredHeight: 32
         Layout.fillHeight: true
         Layout.fillWidth: true
         placeholderText: qsTr("0.00")

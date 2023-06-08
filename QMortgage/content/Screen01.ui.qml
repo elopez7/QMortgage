@@ -10,19 +10,70 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import QMortgage
+import Qt.labs.qmlmodels
 import "components"
 
-Item {
-    id: root
+GridLayout {
+    id: appLayout
     width: Constants.width
     height: Constants.height
+    columns: 2
+    flow: GridLayout.LeftToRight
+    rowSpacing: 16
+    states: [
+        State {
+            when: appLayout.width <= Constants.width
+            PropertyChanges {
+                target: leftBox
+                Layout.columnSpan: 2
+            }
+            PropertyChanges {
+                target: rightBox
+                Layout.columnSpan: 2
+            }
+        },
+
+        State {
+            when: appLayout.width > Constants.width
+            PropertyChanges {
+                target: leftBox
+                Layout.columnSpan: 1
+            }
+
+            PropertyChanges {
+                target: calculateInLayoutButton
+                visible: true
+                Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+            }
+
+            PropertyChanges {
+                target: rightBox
+                Layout.columnSpan: 1
+            }
+
+            PropertyChanges {
+                target: buttonLayout
+                Layout.columnSpan: 1
+                visible: false
+            }
+
+            PropertyChanges {
+                target: paymentAmountLabel
+            }
+
+            PropertyChanges {
+                target: monthlyPaymentLabel
+            }
+        }
+    ]
 
     ColumnLayout {
-        id: appLayout
-        anchors.fill: parent
-        anchors.margins: 16
+        id: leftBox
+        Layout.columnSpan: 2
         spacing: 16
-
+        Layout.maximumWidth: Constants.width
+        Layout.fillHeight: true
+        Layout.fillWidth: true
         Label {
             id: appTitleLabel
             text: qsTr("Loan Calculator")
@@ -50,6 +101,25 @@ Item {
             amountLabelText: qsTr("Loan Rate")
         }
 
+        Button {
+            id: calculateInLayoutButton
+            Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+            text: qsTr("Calculate")
+            Layout.fillWidth: true
+            Layout.maximumWidth: leftBox.width / 3
+            visible: false
+            font {
+                pixelSize: 32
+                family: "Roboto"
+            }
+        }
+    }
+
+    ColumnLayout {
+        id: rightBox
+        Layout.maximumWidth: Constants.width
+        Layout.columnSpan: 2
+        spacing: 16
         Label {
             id: monthlyPaymentLabel
             text: qsTr("Your Monthly Payment")
@@ -91,17 +161,24 @@ Item {
             amountLabel: qsTr("Total Cost")
             amountNumber: qsTr("$" + "0.00")
         }
+    }
 
+    ColumnLayout {
+        id: buttonLayout
+        Layout.columnSpan: 2
+        spacing: 16
+        Layout.maximumWidth: Constants.width
+        Layout.fillHeight: true
+        Layout.fillWidth: true
+        visible: true
         Button {
-            id: calculateButton
-            Layout.fillHeight: true
-            Layout.fillWidth: true
+            id: calculateOutLayoutButton
             Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
             text: qsTr("Calculate")
+            Layout.fillWidth: true
             font {
                 pixelSize: 32
                 family: "Roboto"
-                color: "black"
             }
         }
     }
