@@ -11,18 +11,21 @@ import QtQuick.Controls
 import QtQuick.Layouts
 import QMortgage
 import Qt.labs.qmlmodels
+import loanHelperModule
 import "components"
+import "js/common.js" as Common
 
 GridLayout {
+
+    property int fontSize: 28
+
     id: appLayout
-    width: Constants.width
-    height: Constants.height
     columns: 2
     flow: GridLayout.LeftToRight
     rowSpacing: 16
     states: [
         State {
-            when: appLayout.width <= Constants.width
+            when: appLayout.width <= 480
             PropertyChanges {
                 target: leftBox
                 Layout.columnSpan: 2
@@ -34,7 +37,7 @@ GridLayout {
         },
 
         State {
-            when: appLayout.width > Constants.width
+            when: appLayout.width > 480
             PropertyChanges {
                 target: leftBox
                 Layout.columnSpan: 1
@@ -56,22 +59,26 @@ GridLayout {
                 Layout.columnSpan: 1
                 visible: false
             }
-
-            PropertyChanges {
-                target: paymentAmountLabel
-            }
-
-            PropertyChanges {
-                target: monthlyPaymentLabel
-            }
         }
     ]
+
+    LoanHelper{
+        id: loanHelper
+    }
+
+    Binding{loanHelper.amount: loanAmountField.amountTextField}
+    Binding{loanHelper.rate: rateAmountField.amountTextField}
+    Binding{loanHelper.term: termAmountField.amountTextField}
+    Binding{principal.amountNumber: Number(loanHelper.amount).toLocaleCurrencyString(Qt.locale(), "$")}
+    Binding{interest.amountNumber: Number(loanHelper.totalInterest).toLocaleCurrencyString(Qt.locale(), "$")}
+    Binding{cost.amountNumber: Number(loanHelper.totalCost).toLocaleCurrencyString(Qt.locale(), "$")}
+    Binding{paymentAmountLabel.text: Number(loanHelper.payment).toLocaleCurrencyString(Qt.locale(), "$")}
 
     ColumnLayout {
         id: leftBox
         Layout.columnSpan: 2
         spacing: 16
-        Layout.maximumWidth: Constants.width
+        Layout.maximumWidth: 480
         Layout.fillHeight: true
         Layout.fillWidth: true
         Label {
@@ -109,7 +116,7 @@ GridLayout {
             Layout.maximumWidth: leftBox.width / 3
             visible: false
             font {
-                pixelSize: 32
+                pixelSize: fontSize
                 family: "Roboto"
             }
         }
@@ -117,7 +124,7 @@ GridLayout {
 
     ColumnLayout {
         id: rightBox
-        Layout.maximumWidth: Constants.width
+        Layout.maximumWidth: appLayout.width
         Layout.columnSpan: 2
         spacing: 16
         Label {
@@ -167,7 +174,7 @@ GridLayout {
         id: buttonLayout
         Layout.columnSpan: 2
         spacing: 16
-        Layout.maximumWidth: Constants.width
+        Layout.maximumWidth: 480
         Layout.fillHeight: true
         Layout.fillWidth: true
         visible: true
@@ -177,9 +184,62 @@ GridLayout {
             text: qsTr("Calculate")
             Layout.fillWidth: true
             font {
-                pixelSize: 32
+                pixelSize: fontSize
                 family: "Roboto"
             }
+        }
+    }
+
+    ColumnLayout{
+        id: tableLayout
+        Layout.columnSpan: 2
+        spacing: 1
+        Layout.alignment: Qt.AlignHCenter
+        visible: false
+
+        HorizontalHeaderView{
+            id: horizontalHeader
+            Layout.fillWidth: true
+            syncView: amortizationTable
+            boundsBehavior: Flickable.StopAtBounds
+            clip: true
+        }
+
+        AmortizationTableModelCPP{
+            id: amortizationModel
+            loanHelper: loanHelper
+        }
+
+        AmortizationTable{
+            id: amortizationTable
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            boundsBehavior: Flickable.StopAtBounds
+            clip: true
+            model: amortizationModel
+        }
+
+    }
+
+    Connections{
+        target: calculateInLayoutButton
+        function onClicked(){
+            if(!loanAmountField.amountTextField || !rateAmountField.amountTextField || !termAmountField.amountTextField){
+                return;
+            }
+            loanHelper.calculateInterest();
+            tableLayout.visible = true
+        }
+    }
+
+    Connections{
+        target: calculateOutLayoutButton
+        function onClicked(){
+            if(!loanAmountField.amountTextField || !rateAmountField.amountTextField || !termAmountField.amountTextField){
+                return;
+            }
+            loanHelper.calculateInterest();
+            tableLayout.visible = true
         }
     }
 }

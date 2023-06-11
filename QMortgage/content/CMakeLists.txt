@@ -8,13 +8,18 @@ qt6_add_qml_module(content
     URI "content"
     VERSION 1.0
     QML_FILES
+        AmortizationTableDelegate.ui.qml
         App.qml
+        AmortizationTable.ui.qml
         Screen01.ui.qml
+        AmortizationTableModel.qml
+        AmortizationTableDelegateHeader.ui.qml
         components/AmountLabelsForm.ui.qml
         components/NumberInput.qml
         components/NumberInputForm.ui.qml
         components/AmountLabels.qml
     RESOURCES
+        js/common.js
         fonts/roboto/Roboto-LightItalic.ttf
         fonts/roboto/Roboto-Medium.ttf
         fonts/roboto/Roboto-BoldItalic.ttf
@@ -31,5 +36,4 @@ qt6_add_qml_module(content
         fonts/roboto/Roboto-Regular.ttf
         fonts/roboto/Roboto-Light.ttf
         fonts/roboto/Roboto-BlackItalic.ttf
-
 )

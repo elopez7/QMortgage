@@ -6,12 +6,11 @@ import QtQuick.Controls
 import QMortgage
 
 Window {
-    width: Constants.width
-    height: Constants.height
+    id: window
+    width: 480
+    height: 640
 
-    color: Constants.backgroundColor
-
-    color: Constants.backgroundColor
+    color: "Grey"
 
     visible: true
     title: "QMortgage"
@@ -23,6 +22,5 @@ Window {
             margins: 16
         }
     }
-
 }
 
