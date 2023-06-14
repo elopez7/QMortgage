@@ -16,7 +16,5 @@ TableView {
     columnSpacing: 1
     clip: true
 
-    //model: AmortizationTableModelCPP {}
-
     delegate: AmortizationTableDelegate {}
 }

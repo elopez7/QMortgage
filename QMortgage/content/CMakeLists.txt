@@ -8,16 +8,24 @@ qt6_add_qml_module(content
     URI "content"
     VERSION 1.0
     QML_FILES
-        AmortizationTableDelegate.ui.qml
         App.qml
-        AmortizationTable.ui.qml
         Screen01.ui.qml
-        AmortizationTableModel.qml
-        AmortizationTableDelegateHeader.ui.qml
+        tables/AmortizationTable.ui.qml
+        tables/AmortizationTableDelegate.ui.qml
+        tables/AmortizationTableModel.qml
+        tables/AmortizationTableDelegateHeader.ui.qml
         components/AmountLabelsForm.ui.qml
         components/NumberInput.qml
         components/NumberInputForm.ui.qml
         components/AmountLabels.qml
+        layouts/CalculateButtonLayoutForm.ui.qml
+        layouts/CalculateButtonLayout.qml
+        layouts/InputsForm.ui.qml
+        layouts/Inputs.qml
+        layouts/OutputsForm.ui.qml
+        layouts/Outputs.qml
+        layouts/AmortTableForm.ui.qml
+        layouts/AmortTable.qml
     RESOURCES
         js/common.js
         fonts/roboto/Roboto-LightItalic.ttf
