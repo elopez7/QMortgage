@@ -7,7 +7,7 @@ ColumnLayout {
     id: root
     property alias amountLabelText: amountLabel.text
     property alias amountTextField: amountTextField.text
-
+    property alias placeholderText: amountTextField.placeholderText
     Label {
         id: amountLabel
         text: qsTr("Loan Amount")

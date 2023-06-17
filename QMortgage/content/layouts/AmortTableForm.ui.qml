@@ -4,7 +4,7 @@ import QtQuick.Layouts
 import loanHelperModule
 import "../tables"
 
-ColumnLayout{
+ColumnLayout {
     property alias amortizationTable: amortizationTable
     property alias loanHelper: amortizationModel.loanHelper
     property alias tableColumnWidthProvider: amortizationTable.columnWidthProvider
@@ -12,21 +12,31 @@ ColumnLayout{
     id: tableLayout
     spacing: 1
 
-    HorizontalHeaderView{
+    Rectangle {
+        id: separator
+        Layout.bottomMargin: 4
+        Layout.topMargin: 4
+        Layout.fillWidth: true
+        Layout.fillHeight: true
+        Layout.maximumHeight: 4
+    }
+
+    HorizontalHeaderView {
         id: horizontalHeader
         Layout.fillWidth: true
         syncView: amortizationTable
         boundsBehavior: Flickable.StopAtBounds
         clip: true
         resizableColumns: false
+        delegate: AmortizationTableDelegateHeader {}
     }
 
-    AmortizationTableModelCPP{
+    AmortizationTableModelCPP {
         id: amortizationModel
         loanHelper: loanHelper
     }
 
-    AmortizationTable{
+    AmortizationTable {
         id: amortizationTable
         Layout.fillWidth: true
         Layout.fillHeight: true

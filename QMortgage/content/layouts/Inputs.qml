@@ -1,4 +1,4 @@
-import QtQuick
+
 
 InputsForm {
     signal calculateInterest()

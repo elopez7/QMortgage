@@ -26,8 +26,9 @@ GridLayout {
     columns: 2
     flow: GridLayout.LeftToRight
     rowSpacing: 16
+    columnSpacing: 32
 
-    LoanHelper{
+    LoanHelper {
         id: loanHelper
     }
 
@@ -55,7 +56,7 @@ GridLayout {
         visible: true
     }
 
-    AmortTable{
+    AmortTable {
         id: tableLayout
         Layout.columnSpan: 2
         Layout.alignment: Qt.AlignHCenter
@@ -64,26 +65,26 @@ GridLayout {
         loanHelper: loanHelper
     }
 
-    Connections{
+    Connections {
         target: leftBox
-        function onCalculateInterest(loanAmount, loanRate, loanTerm){            
-            loanHelper.calculateInterest();
+        function onCalculateInterest(loanAmount, loanRate, loanTerm) {
+            loanHelper.calculateInterest()
             tableLayout.visible = true
         }
     }
 
-    Connections{
+    Connections {
         target: buttonLayout
-        function onCalculateInterest(){
-            loanHelper.calculateInterest();
+        function onCalculateInterest() {
+            loanHelper.calculateInterest()
             tableLayout.visible = true
         }
     }
 
-    Connections{
+    Connections {
         target: appLayout
-        function onWidthChanged(){
-            tableLayout.updateLayout(appLayout.width)
+        function onWidthChanged() {
+            tableLayout.updateLayout(appLayout.width - 4)
         }
     }
 
@@ -126,11 +127,31 @@ GridLayout {
         }
     ]
 
-    Binding{loanHelper.amount: leftBox.loanAmount}
-    Binding{loanHelper.rate: leftBox.loanRate}
-    Binding{loanHelper.term: leftBox.loanTerm}
-    Binding{rightBox.paymentAmount: Number(loanHelper.payment).toLocaleCurrencyString(Qt.locale(), currencySymbol)}
-    Binding{rightBox.principal: Number(loanHelper.amount).toLocaleCurrencyString(Qt.locale(), currencySymbol)}
-    Binding{rightBox.cost: Number(loanHelper.totalCost).toLocaleCurrencyString(Qt.locale(), currencySymbol)}
-    Binding{rightBox.interest: Number(loanHelper.totalInterest).toLocaleCurrencyString(Qt.locale(), currencySymbol)}
+    Binding {
+        loanHelper.amount: leftBox.loanAmount
+    }
+    Binding {
+        loanHelper.rate: leftBox.loanRate
+    }
+    Binding {
+        loanHelper.term: leftBox.loanTerm
+    }
+    Binding {
+        rightBox.paymentAmount: Number(
+                                    loanHelper.payment).toLocaleCurrencyString(
+                                    Qt.locale(), currencySymbol)
+    }
+    Binding {
+        rightBox.principal: Number(loanHelper.amount).toLocaleCurrencyString(
+                                Qt.locale(), currencySymbol)
+    }
+    Binding {
+        rightBox.cost: Number(loanHelper.totalCost).toLocaleCurrencyString(
+                           Qt.locale(), currencySymbol)
+    }
+    Binding {
+        rightBox.interest: Number(
+                               loanHelper.totalInterest).toLocaleCurrencyString(
+                               Qt.locale(), currencySymbol)
+    }
 }

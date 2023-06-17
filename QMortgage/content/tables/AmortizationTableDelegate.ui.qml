@@ -13,11 +13,12 @@ Rectangle {
     id: delegate
     implicitWidth: 100
     implicitHeight: 20
-    color: "white"
+    color: model.row % 2 === 0 ? "#303437" : "#262a2d"
     Label {
         anchors.fill: delegate
         horizontalAlignment: Text.AlignRight
-        color: "black"
+        font.family: "Roboto"
+        color: "white"
         text: tableData
     }
 }

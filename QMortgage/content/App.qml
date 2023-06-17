@@ -5,12 +5,12 @@ import QtQuick
 import QtQuick.Controls
 import QMortgage
 
-Window {
+ApplicationWindow {
     id: window
     width: 480
     height: 640
 
-    color: "Grey"
+    color: "#002b36"
 
     visible: true
     title: "QMortgage"

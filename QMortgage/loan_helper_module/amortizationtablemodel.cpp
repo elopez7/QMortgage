@@ -20,6 +20,14 @@ int AmortizationTableModel::columnCount(const QModelIndex &) const
     return 6;
 }
 
+QHash<int, QByteArray> AmortizationTableModel::roleNames() const
+{
+    QHash<int, QByteArray> roles;
+    roles[+AmortizationTableRoles::TableDataRole] = "tableData";
+    roles[+AmortizationTableRoles::HeadingRole] = "heading";
+    return roles;
+}
+
 QVariant AmortizationTableModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
     if(role != Qt::DisplayRole)
@@ -54,35 +62,29 @@ QVariant AmortizationTableModel::data(const QModelIndex &index, int role) const
     if(index.row() >= m_loanHelper->getPaymentsList().size() || index.row() < 0)
         return QVariant();
 
+    QString currencySymbol{"$"};
+
     if(role == +AmortizationTableRoles::TableDataRole){
         const auto &loan = m_loanHelper->getPaymentsList().at(index.row());
 
         switch (index.column()) {
         case 0:
-            return QString(QLocale().toCurrencyString(loan->m_month, "$"));
+            return loan->m_month;
         case 1:
-            return QString(QLocale().toCurrencyString(loan->m_payment, "$"));
+            return QString(QLocale().toCurrencyString(loan->m_payment, currencySymbol));
         case 2:
-            return QString(QLocale().toCurrencyString(loan->m_monthlyPrincipal, "$"));
+            return QString(QLocale().toCurrencyString(loan->m_monthlyPrincipal, currencySymbol));
         case 3:
-            return QString(QLocale().toCurrencyString(loan->m_monthlyInterest, "$"));
+            return QString(QLocale().toCurrencyString(loan->m_monthlyInterest, currencySymbol));
         case 4:
-            return QString(QLocale().toCurrencyString(loan->m_totalInterest, "$"));
+            return QString(QLocale().toCurrencyString(loan->m_totalInterest, currencySymbol));
         case 5:
-            return QString(QLocale().toCurrencyString(loan->m_balance, "$"));
+            return QString(QLocale().toCurrencyString(loan->m_balance, currencySymbol));
         default:
             break;
         }
     }
     return QVariant();
-}
-
-QHash<int, QByteArray> AmortizationTableModel::roleNames() const
-{
-    QHash<int, QByteArray> roles;
-    roles[+AmortizationTableRoles::TableDataRole] = "tableData";
-    roles[+AmortizationTableRoles::HeadingRole] = "heading";
-    return roles;
 }
 
 LoanHelper *AmortizationTableModel::getLoanHelper() const

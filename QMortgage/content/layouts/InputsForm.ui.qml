@@ -31,6 +31,7 @@ ColumnLayout {
     NumberInput {
         id: termAmountField
         amountLabelText: qsTr("Loan Term")
+        placeholderText: qsTr("Months")
     }
 
     NumberInput {

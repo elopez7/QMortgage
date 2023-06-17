@@ -9,18 +9,17 @@ Check out https://doc.qt.io/qtcreator/creator-quick-ui-forms.html for details on
 import QtQuick
 import QtQuick.Controls
 
-Item {
+Rectangle {
     id: headingDelegate
     implicitWidth: 100
     implicitHeight: 20
-
-    Rectangle {
-        id: rectangle
+    color: "lightblue"
+    Label {
+        color: "#20394c"
+        text: model.display
         anchors.fill: headingDelegate
-        color: "blue"
-        Label {
-            color: "black"
-            text: heading
-        }
+        horizontalAlignment: Text.AlignHCenter
+        font.bold: true
+        font.family: "Roboto"
     }
 }
